@@ -19801,6 +19801,25 @@
 	        ' No Country Selected '
 	      );
 	    }
+
+	    if (this.props.currentCountry.borders.length > 0) {
+	      var borderingCountries = this.props.currentCountry.borders.map(function (country, index) {
+	        return React.createElement(
+	          'p',
+	          { key: index },
+	          ' ',
+	          country,
+	          ' '
+	        );
+	      });
+	    } else {
+	      var borderingCountries = React.createElement(
+	        'p',
+	        null,
+	        'This Country Has No Friends'
+	      );
+	    }
+
 	    return React.createElement(
 	      'div',
 	      null,
@@ -19810,7 +19829,8 @@
 	        ' ',
 	        this.props.currentCountry.name,
 	        ' '
-	      )
+	      ),
+	      borderingCountries
 	    );
 	  }
 
