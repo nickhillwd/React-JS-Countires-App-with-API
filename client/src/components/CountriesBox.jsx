@@ -13,7 +13,10 @@ var CountriesBox = React.createClass({
     request.onload = function(){
       var data = JSON.parse(request.responseText);
       console.log("got API data: ", data);
-    }
+      console.log("CountriesBox this: ", this);
+      this.setState( {countries: data} );
+    }.bind(this);
+    //bind this makes sure this is kept as the state, rather than the response.onload
     request.send(null);
   },
 
