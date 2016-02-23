@@ -1,5 +1,7 @@
 var React = require('react');
 
+var CountriesSelect = require('./CountriesSelect.jsx');
+
 var CountriesBox = React.createClass({
   
   getInitialState: function(){
@@ -12,8 +14,8 @@ var CountriesBox = React.createClass({
     request.open("GET", url);
     request.onload = function(){
       var data = JSON.parse(request.responseText);
-      console.log("got API data: ", data);
-      console.log("CountriesBox this: ", this);
+      // console.log("got API data: ", data);
+      // console.log("CountriesBox this: ", this);
       this.setState( {countries: data} );
     }.bind(this);
     //bind this makes sure this is kept as the state, rather than the response.onload
@@ -24,6 +26,7 @@ var CountriesBox = React.createClass({
     return(
       <div>
         <h4> Countries Box </h4>
+        <CountriesSelect countries={this.state.countries}> </CountriesSelect>
       </div>
     )
   }

@@ -19659,12 +19659,14 @@
 /* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(1);
 
+	var CountriesSelect = __webpack_require__(160);
+
 	var CountriesBox = React.createClass({
-	  displayName: "CountriesBox",
+	  displayName: 'CountriesBox',
 
 
 	  getInitialState: function getInitialState() {
@@ -19677,8 +19679,8 @@
 	    request.open("GET", url);
 	    request.onload = function () {
 	      var data = JSON.parse(request.responseText);
-	      console.log("got API data: ", data);
-	      console.log("CountriesBox this: ", this);
+	      // console.log("got API data: ", data);
+	      // console.log("CountriesBox this: ", this);
 	      this.setState({ countries: data });
 	    }.bind(this);
 	    //bind this makes sure this is kept as the state, rather than the response.onload
@@ -19687,18 +19689,79 @@
 
 	  render: function render() {
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "h4",
+	        'h4',
 	        null,
-	        " Countries Box "
+	        ' Countries Box '
+	      ),
+	      React.createElement(
+	        CountriesSelect,
+	        { countries: this.state.countries },
+	        ' '
 	      )
 	    );
 	  }
 	});
 
 	module.exports = CountriesBox;
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var CountriesSelect = React.createClass({
+	  displayName: 'CountriesSelect',
+
+
+	  render: function render() {
+
+	    // var options = [];
+	    // var index = 0;
+	    // for(var country of this.props.countries){
+	    //   options.push(
+	    //     <option> {country.name} </option>
+	    //   )
+	    //  index++
+	    // }
+
+	    //map does exactly the same as the for of loop above, incledes an index aswell to keep react happy so each option tag has an index for it to refer to.
+
+	    var options = this.props.countries.map(function (country, index) {
+	      return React.createElement(
+	        'option',
+	        { key: index },
+	        ' ',
+	        country.name,
+	        ' '
+	      );
+	    });
+
+	    console.log(options);
+
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h4',
+	        null,
+	        'Select Country from Countries'
+	      ),
+	      React.createElement(
+	        'select',
+	        null,
+	        options
+	      )
+	    );
+	  }
+	});
+
+	module.exports = CountriesSelect;
 
 /***/ }
 /******/ ]);
