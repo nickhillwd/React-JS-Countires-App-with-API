@@ -10,6 +10,7 @@ var CountriesBox = React.createClass({
   },
 
   setCurrentCountry: function(country){
+    console.log("setting new country");
     this.setState({currentCountry: country});
   },
 
@@ -32,7 +33,7 @@ var CountriesBox = React.createClass({
       <div>
         <h4> Countries Box </h4>
         <CountriesSelect onSelectCountry={this.setCurrentCountry} countries={this.state.countries}> </CountriesSelect>
-        <CountryDisplayBox currentCountry={this.state.currentCountry} countries={this.state.countries}></CountryDisplayBox>
+        <CountryDisplayBox currentCountry={this.state.currentCountry} countries={this.state.countries} updateCountry={this.setCurrentCountry}></CountryDisplayBox>
       </div>
     )
   }

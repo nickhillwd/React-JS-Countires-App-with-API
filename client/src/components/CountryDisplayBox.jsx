@@ -4,6 +4,17 @@ var React = require('react');
 
 var CountryDisplayBox = React.createClass({
 
+  handleClick: function(event){
+    event.preventDefault();
+    var countryName = event.target.innerText;
+    var country = this.props.countries.find(function(country){
+      if(country.name === countryName){
+        return country
+      }
+    })
+    this.props.updateCountry(country);
+  },
+
   render: function(){
     var countriesArray = this.props.countries;
 
@@ -14,11 +25,10 @@ var CountryDisplayBox = React.createClass({
         var borderAlpha3 = country;
         for(country of countriesArray){
           if(borderAlpha3 === country.alpha3Code){
-            return country.name
+            return <li key={index}><a href="#" onClick={this.handleClick}> {country.name} </a></li>
           }
         }
-        return <li key={index}> {country.name} </li>
-      });
+      }.bind(this));
     }else{
       var borderingCountries = <li> This Country Has No Friends </li>
     }
@@ -26,6 +36,7 @@ var CountryDisplayBox = React.createClass({
     return(
       <div>
         <h4> {this.props.currentCountry.name} </h4>
+        <h4>Bordering Countries:</h4>
         <ul>
           {borderingCountries}
         </ul>
