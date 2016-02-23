@@ -19706,7 +19706,7 @@
 	        { onSelectCountry: this.setCurrentCountry, countries: this.state.countries },
 	        ' '
 	      ),
-	      React.createElement(CountryDisplayBox, { currentCountry: this.state.currentCountry })
+	      React.createElement(CountryDisplayBox, { currentCountry: this.state.currentCountry, countries: this.state.countries })
 	    );
 	  }
 	});
@@ -19794,6 +19794,8 @@
 
 
 	  render: function render() {
+	    var countriesArray = this.props.countries;
+
 	    if (!this.props.currentCountry) {
 	      return React.createElement(
 	        'h4',
@@ -19804,19 +19806,47 @@
 
 	    if (this.props.currentCountry.borders.length > 0) {
 	      var borderingCountries = this.props.currentCountry.borders.map(function (country, index) {
+	        var borderAlpha3 = country;
+	        var _iteratorNormalCompletion = true;
+	        var _didIteratorError = false;
+	        var _iteratorError = undefined;
+
+	        try {
+	          for (var _iterator = countriesArray[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	            country = _step.value;
+
+	            if (borderAlpha3 === country.alpha3Code) {
+	              return country.name;
+	            }
+	          }
+	        } catch (err) {
+	          _didIteratorError = true;
+	          _iteratorError = err;
+	        } finally {
+	          try {
+	            if (!_iteratorNormalCompletion && _iterator.return) {
+	              _iterator.return();
+	            }
+	          } finally {
+	            if (_didIteratorError) {
+	              throw _iteratorError;
+	            }
+	          }
+	        }
+
 	        return React.createElement(
-	          'p',
+	          'li',
 	          { key: index },
 	          ' ',
-	          country,
+	          country.name,
 	          ' '
 	        );
 	      });
 	    } else {
 	      var borderingCountries = React.createElement(
-	        'p',
+	        'li',
 	        null,
-	        'This Country Has No Friends'
+	        ' This Country Has No Friends '
 	      );
 	    }
 
@@ -19830,7 +19860,11 @@
 	        this.props.currentCountry.name,
 	        ' '
 	      ),
-	      borderingCountries
+	      React.createElement(
+	        'ul',
+	        null,
+	        borderingCountries
+	      )
 	    );
 	  }
 

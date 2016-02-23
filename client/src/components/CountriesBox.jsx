@@ -32,7 +32,7 @@ var CountriesBox = React.createClass({
       <div>
         <h4> Countries Box </h4>
         <CountriesSelect onSelectCountry={this.setCurrentCountry} countries={this.state.countries}> </CountriesSelect>
-        <CountryDisplayBox currentCountry={this.state.currentCountry}></CountryDisplayBox>
+        <CountryDisplayBox currentCountry={this.state.currentCountry} countries={this.state.countries}></CountryDisplayBox>
       </div>
     )
   }

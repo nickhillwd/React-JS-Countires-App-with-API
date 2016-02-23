@@ -5,20 +5,30 @@ var React = require('react');
 var CountryDisplayBox = React.createClass({
 
   render: function(){
+    var countriesArray = this.props.countries;
+
     if(!this.props.currentCountry){ return <h4> No Country Selected </h4>}
 
     if(this.props.currentCountry.borders.length > 0){
       var borderingCountries = this.props.currentCountry.borders.map(function(country, index){
-        return <p key={index}> {country} </p>
-      })
+        var borderAlpha3 = country;
+        for(country of countriesArray){
+          if(borderAlpha3 === country.alpha3Code){
+            return country.name
+          }
+        }
+        return <li key={index}> {country.name} </li>
+      });
     }else{
-      var borderingCountries = <p>This Country Has No Friends</p>
+      var borderingCountries = <li> This Country Has No Friends </li>
     }
 
     return(
       <div>
         <h4> {this.props.currentCountry.name} </h4>
-        {borderingCountries}
+        <ul>
+          {borderingCountries}
+        </ul>
       </div>
     )
   }
