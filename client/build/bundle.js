@@ -19664,6 +19664,7 @@
 	var React = __webpack_require__(1);
 
 	var CountriesSelect = __webpack_require__(160);
+	var CountryDisplayBox = __webpack_require__(161);
 
 	var CountriesBox = React.createClass({
 	  displayName: 'CountriesBox',
@@ -19671,6 +19672,10 @@
 
 	  getInitialState: function getInitialState() {
 	    return { countries: [], currentCountry: null };
+	  },
+
+	  setCurrentCountry: function setCurrentCountry(country) {
+	    this.setState({ currentCountry: country });
 	  },
 
 	  componentDidMount: function componentDidMount() {
@@ -19681,7 +19686,7 @@
 	      var data = JSON.parse(request.responseText);
 	      // console.log("got API data: ", data);
 	      // console.log("CountriesBox this: ", this);
-	      this.setState({ countries: data });
+	      this.setState({ countries: data, currentCountry: data[0] });
 	    }.bind(this);
 	    //bind this makes sure this is kept as the state, rather than the response.onload
 	    request.send(null);
@@ -19698,9 +19703,10 @@
 	      ),
 	      React.createElement(
 	        CountriesSelect,
-	        { countries: this.state.countries },
+	        { onSelectCountry: this.setCurrentCountry, countries: this.state.countries },
 	        ' '
-	      )
+	      ),
+	      React.createElement(CountryDisplayBox, { currentCountry: this.state.currentCountry })
 	    );
 	  }
 	});
@@ -19719,6 +19725,18 @@
 	  displayName: 'CountriesSelect',
 
 
+	  getInitialState: function getInitialState() {
+	    return { selectedIndex: null };
+	  },
+
+	  handleChange: function handleChange(event) {
+	    event.preventDefault();
+	    var newIndex = event.target.value;
+	    this.setState({ selectedIndex: newIndex });
+	    var currentCountry = this.props.countries[newIndex];
+	    this.props.onSelectCountry(currentCountry);
+	  },
+
 	  render: function render() {
 
 	    // var options = [];
@@ -19732,17 +19750,15 @@
 
 	    //map does exactly the same as the for of loop above, incledes an index aswell to keep react happy so each option tag has an index for it to refer to.
 
-	    var options = this.props.countries.map(function (country, index) {
+	    var countryOptions = this.props.countries.map(function (country, index) {
 	      return React.createElement(
 	        'option',
-	        { key: index },
+	        { key: index, value: index },
 	        ' ',
 	        country.name,
 	        ' '
 	      );
 	    });
-
-	    console.log(options);
 
 	    return React.createElement(
 	      'div',
@@ -19754,14 +19770,53 @@
 	      ),
 	      React.createElement(
 	        'select',
-	        null,
-	        options
+	        { value: this.state.selectedIndex, onChange: this.handleChange },
+	        countryOptions
 	      )
 	    );
 	  }
 	});
 
 	module.exports = CountriesSelect;
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	// var currentCountry = this.props.currentCountry;
+
+	var CountryDisplayBox = React.createClass({
+	  displayName: 'CountryDisplayBox',
+
+
+	  render: function render() {
+	    if (!this.props.currentCountry) {
+	      return React.createElement(
+	        'h4',
+	        null,
+	        ' No Country Selected '
+	      );
+	    }
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'h4',
+	        null,
+	        ' ',
+	        this.props.currentCountry.name,
+	        ' '
+	      )
+	    );
+	  }
+
+	});
+
+	module.exports = CountryDisplayBox;
 
 /***/ }
 /******/ ]);
