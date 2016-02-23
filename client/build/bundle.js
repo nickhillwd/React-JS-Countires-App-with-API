@@ -48,13 +48,10 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
+	var CountriesBox = __webpack_require__(159);
 
 	window.onload = function () {
-	  ReactDOM.render(React.createElement(
-	    'h1',
-	    null,
-	    ' React Start '
-	  ), document.getElementById('app'));
+	  ReactDOM.render(React.createElement(CountriesBox, null), document.getElementById('app'));
 	};
 
 /***/ },
@@ -19657,6 +19654,51 @@
 
 	module.exports = __webpack_require__(3);
 
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+
+	var CountriesBox = React.createClass({
+	  displayName: "CountriesBox",
+
+
+	  getInitialState: function getInitialState() {
+	    return { countries: [], currentCountry: null };
+	  },
+
+	  componentDidMount: function componentDidMount() {
+	    var url = "https://restcountries.eu/rest/v1/all";
+	    var request = new XMLHttpRequest();
+	    request.open("GET", url);
+	    request.onload = function () {
+	      var data = JSON.parse(request.responseText);
+	      console.log("got API data: ", data);
+	      console.log("CountriesBox this: ", this);
+	      this.setState({ countries: data });
+	    }.bind(this);
+	    //bind this makes sure this is kept as the state, rather than the response.onload
+	    request.send(null);
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h4",
+	        null,
+	        " Countries Box "
+	      )
+	    );
+	  }
+	});
+
+	module.exports = CountriesBox;
 
 /***/ }
 /******/ ]);
